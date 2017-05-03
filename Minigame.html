@@ -24,7 +24,7 @@ canvas {
 	margin-top:70px
 }
 </style>
-<body>
+<body onload="startGame()">
 
 <!-- Navbar -->
 <div class="w3-top">
@@ -44,11 +44,6 @@ canvas {
 
 <!-- Main content: shift it to the right by 250 pixels when the sidenav is visible -->
 
-
-
-
-<body onload="startGame()">
-
 <script>
 
 var Fly;
@@ -59,7 +54,7 @@ var myScore;
 function startGame() {
     fly = new component(30, 30, "download.jpg", 10, 120, "image");
 	myBackground = new component(656, 270, "skyer.png", 0, 0, "image");
-    fly.gravity = 1;
+    fly.gravity = 100;
     myScore = new component("30px", "Consolas", "black", 280, 280, "text");
     myGameArea.start();
 }
