@@ -30,49 +30,137 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   </div>
 </div>
 
-<!-- Sidenav -->
-<nav class="w3-sidenav w3-collapse w3-theme-l5 w3-animate-left" style="z-index:3;width:250px;margin-top:70px;" id="mySidenav">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="close menu">
-    <i class="fa fa-remove"></i>
-  </a>
-  <h4><b>Menu</b></h4>
-  <a href="#" class="w3-hover-black">---</a>
-  <a href="#" class="w3-hover-black">---</a>
-  <a href="#" class="w3-hover-black">---</a>
-  <a href="#" class="w3-hover-black">---</a>
-  <a href="#" class="w3-hover-black">---</a>
-</nav>
 
-<!-- Overlay effect when opening sidenav on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
 
 <!-- Main content: shift it to the right by 250 pixels when the sidenav is visible -->
-<div class="w3-main" style="margin-left:250px">
 
-  <div class="w3-row w3-padding-64">
-    <div class="w3-twothird w3-container">
-      <h1 class="w3-text-teal">Heading</h1>
-      <p>Tekst</p>
-    </div>
-    <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
-    </div>
-  </div>
+<body onload="startGame()">
 
- 
+<script>
 
-  
-    <footer id="myFooter">
-    <div class="w3-container w3-theme-l2 w3-padding-32">
-      <h4>Følg os på</h4>
-<html>
-<head>
-<link rel="icon" 
-      type="image/png" 
-      href="C:\Users\kasp989h\Desktop\IT - Eksamen\Eksamensopgave-master\Udklip.png">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+var Fly;
+var myObstacles = [];
+var myScore;
+
+function startGame() {
+    fly	= new component(30, 30, "blue", 10, 120);
+    fly.gravity = 1;
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.gravitySpeed = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (fly.crashWith(myObstacles[i])) {
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(10, height, "green", x, 0));
+        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -1;
+        myObstacles[i].update();
+    }
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
+    fly.newPos();
+    fly.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function accelerate(n) {
+    fly.gravity = n;
+}
+</script>
+<br>
+<button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
+<p>Use the ACCELERATE button to stay in the air</p>
+<p>How long can you stay alive?</p>
+</body>
 <style>
 .fa {
   padding: 10px;

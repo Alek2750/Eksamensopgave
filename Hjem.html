@@ -42,8 +42,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <p>Hello and welcome to travel agency</p>
     </div>
     <div class="w3-third w3-container">
-      <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-      <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p>
+      <p class="w3-border w3-padding-large w3-padding-32 w3-center"></p>
+      <p <p class="src=download.jpg">
     </div>
   </div>
 
@@ -117,6 +117,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   color: white;
 }
 </style>
+<script type="text/javascript">
+    var ad1 = 'AD_1';
+    var ad2 = 'AD_2';
+    var ad3 = 'AD_3';
+    var ad4 = 'AD_4';
+    function showads() {
+        var the_ads = Math.random();
+        if(the_ads < .25) document.write(ad1);         else if(the_ads > .25 && the_ads < .5) document.write(ad2);         else if(the_ads > .5 && the_ads < .75) document.write(ad3);         else document.write(ad4);     } </script>
 </head>
 <body>
 
