@@ -44,8 +44,8 @@ var myObstacles = [];
 var myScore;
 
 function startGame() {
-    fly	= new component(30, 30, "blue", 10, 120);
-    fly.gravity = 0.05;
+    fly	= new component(50, 30, "blue", 10, 120);
+    fly.gravity = 10;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
 }
@@ -131,8 +131,8 @@ function updateGameArea() {
         minHeight = 20;
         maxHeight = 200;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-        minGap = 50;
-        maxGap = 200;
+        minGap = 200;
+        maxGap = 400;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         myObstacles.push(new component(10, height, "green", x, 0));
         myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
