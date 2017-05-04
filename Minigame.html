@@ -60,13 +60,11 @@ canvas {
 var Fly;
 var myBackground;
 var myObstacles = [];
-var myScore;
 
 function startGame() {
     fly = new component(70, 50, "flyver.png", 200, 120, "image");
 	myBackground = new component(1900, 700, "skyer.png", 0, 0, "image");
     fly.gravity = 0.01;
-    myScore = new component("30px", "Consolas", "black", 280, 280, "text");
     myGameArea.start();
 }
 
@@ -94,7 +92,6 @@ function component(width, height, color, x, y, type) {
         this.image = new Image();
         this.image.src = color;
     }
-    this.score = 0;
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -172,8 +169,6 @@ function updateGameArea() {
         myObstacles[i].x += -1;
         myObstacles[i].update();
     }
-    myScore.text="SCORE: " + myGameArea.frameNo;
-    myScore.update();
     fly.newPos();
     fly.update();
 }
