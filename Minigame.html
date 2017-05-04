@@ -14,14 +14,25 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     padding-top: 12px;
     padding-bottom: 12px;
 
-
-
 }
 canvas {
     
     border: 2px solid #d3d3d3;
     background-color: #f1f1f1;
 	margin-top:70px
+}
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: grey;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  padding: 2px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
 }
 </style>
 <body onload="startGame()">
@@ -146,7 +157,7 @@ function updateGameArea() {
 	myBackground.newPos();
 	myBackground.update();
     myGameArea.frameNo += 1;
-    if (myGameArea.frameNo == 1 || everyinterval(300)) {
+    if (myGameArea.frameNo == 1 || everyinterval(400)) {
         x = myGameArea.canvas.width;
         minHeight = 20;
         maxHeight = 200;
@@ -177,10 +188,10 @@ function accelerate(n) {
 }
 </script>
 <br>
-<button onmousedown="accelerate(-0.03)" onmouseup="accelerate(0.03)">ACCELERER</button>
+<button onmousedown="accelerate(-0.03)" onmouseup="accelerate(0.03)">ACCELERER</button> <a href="Minigame.html" class="button"><span>Prøv Igen</span></a>
 <p>Brug ACCELERER knappen for at blive i luften.</p>
 <p>Hvor længe kan du holde dig i live?</p>
-<button onmousedown="<a href="Minigame.html>Prøv igen</button>
+
 </body>
 <style>
 .fa {
